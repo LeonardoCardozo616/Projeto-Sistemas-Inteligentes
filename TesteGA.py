@@ -74,7 +74,7 @@ items = [
 		[10, 60],
 		[20, 100],
 		[30, 120]
-		
+  
 	]
 
 # print available items
@@ -82,7 +82,7 @@ print("Available items:\n", items)
 
 # parameters for genetic algorithm
 max_weight = 50
-population_size = 100
+population_size = 10
 mutation_probability = 0.2
 generations = 10
 
