@@ -11,7 +11,7 @@ itens = [
 capacidade_mochila = 10
 
 # Parâmetros do algoritmo
-tamanho_feixe = 3  # Número de soluções no feixe
+tamanho_feixe = 2  # Número de soluções no feixe
 num_iteracoes = 10  # Número de iterações do algoritmo
 
 # Função de avaliação de uma solução (maior valor é melhor)
@@ -26,7 +26,18 @@ def avaliar(solucao):
 
 # Geração de soluções iniciais aleatórias
 def gerar_solucao_inicial():
-    return random.sample(itens, random.randint(1, len(itens)))
+    # Embaralhe a lista de itens para escolher de forma aleatória
+    random.shuffle(itens)
+    
+    # Determine o tamanho da solução inicial (até o tamanho da lista de itens)
+    tamanho_solucao = random.randint(1, len(itens))
+    
+    # Selecione os primeiros itens da lista embaralhada como a solução inicial
+    solucao_inicial = itens[:tamanho_solucao]
+    
+    return solucao_inicial
+
+    # return random.sample(itens, random.randint(1, len(itens)))
 
 # Geração de vizinhos (troca de um item aleatório)
 def gerar_vizinho(solucao):
@@ -37,8 +48,9 @@ def gerar_vizinho(solucao):
     vizinho.append(novo_item)
     return vizinho
 
-# Inicialização do feixe com soluções iniciais
+# MAIN - Inicialização do feixe com soluções iniciais
 feixe = [gerar_solucao_inicial() for _ in range(tamanho_feixe)]
+print(feixe)
 
 # Algoritmo de busca em feixe local
 for _ in range(num_iteracoes):
