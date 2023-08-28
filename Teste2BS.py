@@ -2,16 +2,14 @@ import random
 
 # Definindo os dados do problema da mochila (valores e pesos dos itens)
 itens = [
-    {"valor": 8, "peso": 4},
-    {"valor": 10, "peso": 5},
-    {"valor": 15, "peso": 8},
-    {"valor": 4, "peso": 3},
-    {"valor": 7, "peso": 2}
+    {"valor": 60, "peso": 10},
+    {"valor": 100, "peso": 20},
+    {"valor": 120, "peso": 30}
 ]
 capacidade_mochila = 10
 
 # Parâmetros do algoritmo
-tamanho_feixe = 3  # Número de soluções no feixe
+tamanho_feixe = 2  # Número de soluções no feixe
 num_iteracoes = 10  # Número de iterações do algoritmo
 
 # Função de avaliação de uma solução (maior valor é melhor)
@@ -32,7 +30,9 @@ def gerar_solucao_inicial():
 def gerar_vizinho(solucao):
     vizinho = solucao.copy()
     item_a_trocar = random.choice(vizinho)
-    novo_item = random.choice(itens)
+    novo_item = random.choice(itens) 
+    while novo_item == item_a_trocar:
+        novo_item = random.choice(itens)   
     vizinho.remove(item_a_trocar)
     vizinho.append(novo_item)
     return vizinho
