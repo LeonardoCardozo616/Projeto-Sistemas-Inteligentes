@@ -19,9 +19,10 @@ def Greedy(wt, val, W, n):
  
 # Driver code
 if __name__ == '__main__':
-    profit = [60, 100, 120]
-    weight = [10, 20, 30]
-    W = 50
+    #(15, 30), (10, 25), (2, 2), (4, 6), (6, 15), (7, 20), (20, 38)
+    profit = [30, 25, 2, 6, 15, 20, 38]
+    weight = [15, 10, 2, 4, 6, 7, 20]
+    W = 20
     n = len(profit)
      
     # We initialize the matrix with -1 at first.
