@@ -17,6 +17,13 @@ def valor_total(itens: list, n: int) -> int:
                valor += j[0]
      return valor
 
+def melhor_resposta(respostas: list, valorMax: int):
+     for index, resp in enumerate(respostas):
+          print(f"Resposta {index + 1}: {resp}")
+          if valor_total(resp, 1) == valorMax:
+               solução = resp
+     return solução
+
 def hill_climbing(I: list, W: int) -> list:
      itens = itensLeves(I, W) # Itens com capacidade menor que W;
      lista = [] # Lista com os itens ecolhidos;
@@ -50,12 +57,7 @@ def beam_search(I: list, W: int, k: int) -> list:
                valorMaximo = valor_total(mochila, 1) # Encontrando o maior valor
           respostas.append(mochila) # Adicionando os máximos locais
      
-     solução = []
-     for index, resp in enumerate(respostas):
-          print(f"Resposta {index + 1}: {resp}")
-          if valor_total(resp, 1) == valorMaximo:
-               solução = resp # A solução é a lista que contém a maior soma de valores
-     
+     solução = melhor_resposta(respostas, valorMaximo)
      return solução
 
 if __name__ == "__main__":
