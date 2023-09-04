@@ -28,7 +28,9 @@ def calcula_fit(cromossomo): #recebe o cromossomo o qual sera calculado
 #escolhe pais para o crossover de forma "aleatória"    
 def pega_cromossomo(populacao): 
     valor_fit = [] #inicializa uma lista com o valor do fit de cada cromossomo
+    pais = []
     for cromossomo in populacao: #para cada cromossomo na população ele adiciona seu fitness à lista valor_fit
+        pais.append(cromossomo)
         valor_fit.append(calcula_fit(cromossomo))
     #print("Valor fits: ", sum(valor_fit)) #<- print explicação
     #print("valor fit", valor_fit) #<- print explicação
@@ -40,10 +42,15 @@ def pega_cromossomo(populacao):
         #print(valor_fit) #<- print explicação
         #estes valores servirão para a randomização valorada/pesada, ou seja, cada cromossomo possui um peso que influencia em sua probabilidade de ser escolhido
         
-        pai1 = random.choices(populacao, weights=valor_fit, k=1)[0] #os pais são escolhidos aleatoriamente, no entanto, quanto maior/melhor seu fit
-        pai2 = random.choices(populacao, weights=valor_fit, k=1)[0] #maior a chance de serem escolhidos
+        pai1 = random.choices(pais, weights=valor_fit, k=1)[0] #os pais são escolhidos aleatoriamente, no entanto, quanto maior/melhor seu fit
+        #não permite dois pais iguais
+        pai1_pos=pais.index(pai1)
+        valor_fit.pop(pai1_pos)
+        pais.remove(pai1)
         
-        #print(f"Pais escolhidos{pai1} e {pai2}") #<- print explicação
+        pai2 = random.choices(pais, weights=valor_fit, k=1)[0] #maior a chance de serem escolhidos
+        
+        print(f"Pais escolhidos{pai1} e {pai2}") #<- print explicação
         return pai1, pai2
 
 #aqui é onde realizamos o crossover
@@ -90,7 +97,7 @@ itens = [(15, 30), (10, 25), (2, 2), (4, 6), (6, 15), (7, 20), (20, 38)]
 
 #parametros do AG
 W = 20 # Carga máxima da mochila
-tam_pop = 10 #tamanho da pop(num de cromossomos)
+tam_pop = 100 #tamanho da pop(num de cromossomos)
 chance_muta = 0.2 #chance de mutação
 geracoes = 5 #numero de gerações
 
