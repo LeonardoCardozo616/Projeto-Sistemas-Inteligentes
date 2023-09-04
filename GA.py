@@ -19,18 +19,19 @@ def calcula_fit(cromossomo): #recebe o cromossomo o qual sera calculado
         if cromossomo[i] == 1: #caso o valor do gene seja 1(item na mochila)
             cromo_peso += itens[i][0] #soma o peso do item ao peso total do cromossomo atual
             cromo_valor += itens[i][1] #soma o valor do item ao valor total do cromossomo atual
-    if cromo_peso > W: #caso o peso total do cromossomo extrapole o peso máximo da mochila, retorna 0
+    if cromo_peso > W: #caso o peso total do cromossomo extrapole o peso máximo da mochila, retorna valor 0
         return 0
     else: #caso contrário, retorna o valor do cromossomo atual
         return cromo_valor 
-    
+
+   
 #escolhe pais para o crossover de forma "aleatória"    
 def pega_cromossomo(populacao): 
     valor_fit = [] #inicializa uma lista com o valor do fit de cada cromossomo
     for cromossomo in populacao: #para cada cromossomo na população ele adiciona seu fitness à lista valor_fit
         valor_fit.append(calcula_fit(cromossomo))
-    #print(sum(valor_fit)) #<- print explicação
-    #print(valor_fit) #<- print explicação
+    #print("Valor fits: ", sum(valor_fit)) #<- print explicação
+    #print("valor fit", valor_fit) #<- print explicação
     if sum(valor_fit) ==0: #teste para verificar se uma solução é gerada, erros ocorrem baseados no tamanho da população
         print("Nenhuma solucao possivel gerada")
         exit(1)
@@ -105,7 +106,7 @@ for i in range(geracoes): #loop que executa conforme o numero de gerações
     if random.uniform(0, 1) <= chance_muta:
         filho2 = mutacao(filho2)
     
-    populacao = [filho1, filho2] + populacao[2:] #substitui a população antiga pela nova
+    populacao = [filho1, filho2] + populacao[2:] #substitui a população antiga pela nova #ver conceito de substituição
     
 melhor_resultado = escolher_melhor(populacao) #seleciona o melhor resultado
 
