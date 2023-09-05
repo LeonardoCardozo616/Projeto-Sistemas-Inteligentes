@@ -106,9 +106,9 @@ def escolher_melhor(populacao):
 
 #Parametros do AG
 def algoritmo_genetico():
-     tam_pop = 10 #tamanho da pop(num de cromossomos)
+     tam_pop = 15 #tamanho da pop(num de cromossomos)
      chance_muta = 0.2 #chance de mutação
-     geracoes = 5 #numero de gerações
+     geracoes = 10 #numero de gerações
 
      populacao = gera_populacao(tam_pop) #gera a população
 
