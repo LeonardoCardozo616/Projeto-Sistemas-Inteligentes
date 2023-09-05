@@ -154,15 +154,12 @@ def hill_climbing(I: list, W: int) -> list:
      itens = itensLeves(I, W) # Itens com capacidade menor que W;
      lista = [] # Lista com os itens ecolhidos;
      pesoAtual = 0 # Variável responsável em verificar se a quantidade de itens não ultrapassa a capacidade W da mochila;
-     while pesoAtual <= W:
+     while len(itens) != 0:
           lista.append(itens.pop(random.randrange(len(itens)))) # Retira um item aleatório da lista itens;
-          if pesoAtual + lista[len(lista)-1][0] <= W: # Se a soma dos pesos for menor que W:
-               pesoAtual += lista[len(lista)-1][0] # O item é incluso;
+          if pesoAtual + lista[-1][0] <= W: # Se a soma dos pesos for menor que W:
+               pesoAtual += lista[-1][0] # O item é incluso;
           else:
                lista.pop() # Senão, o item é removido e não será mais visto;
-          
-          if len(itens) == 0: # Caso não haja mais itens:
-               break # O laço é encerrado;
      return lista
 
 def beam_search(I: list, W: int, k: int) -> list:
@@ -237,15 +234,14 @@ if __name__ == "__main__":
                writer = csv.writer(file)
                # Escreva o valor no arquivo CSV
                writer.writerow([solução3])
-     '''#remove esse coment pra funcionar o salvar em csv
-     
+
+'''
      print()
      print("Hill Climbing:")
-     
      solução = hill_climbing(Itens, W)
      print("Itens: ", solução)
      print("Valor total: ", valor_total(solução, 1))
-     
+
      print()
      print("Local Beam Search:")
 
