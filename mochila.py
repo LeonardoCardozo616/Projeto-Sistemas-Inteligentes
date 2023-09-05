@@ -144,9 +144,18 @@ def valor_total(itens: list, n: int) -> int:
      return valor
 
 def melhor_resposta(respostas: list, valorMax: int):
+     BS_E = "BS_Estados.csv"
+     with open(BS_E, mode='w', newline='') as file:
+          writer = csv.writer(file)
+     
      for index, resp in enumerate(respostas):
           #print(f"Resposta {index + 1}: {resp}")
-          if valor_total(resp, 1) == valorMax:
+          vt = valor_total(resp, 1)
+          with open(BS_E, mode='a', newline='') as file:
+               writer = csv.writer(file)
+               writer.writerow([vt])
+          
+          if vt == valorMax:
                solução = resp
      return solução
 
@@ -163,10 +172,6 @@ def hill_climbing(I: list, W: int) -> list:
      return lista
 
 def beam_search(I: list, W: int, k: int) -> list:
-     BS_G = "BS_Geracoes.csv"
-     with open(BS_G, mode='w', newline='') as file:
-          writer = csv.writer(file)
-          writer.writerow([])
      valorMaximo = 0 # 
      respostas = [] # lista que as respostas de cada estado
      for i in range(k):
@@ -183,13 +188,14 @@ def beam_search(I: list, W: int, k: int) -> list:
           if valor_total(mochila, 1) > valorMaximo:
                valorMaximo = valor_total(mochila, 1) # Encontrando o maior valor
           respostas.append(mochila) # Adicionando os máximos locais
+          '''
           mr = melhor_resposta(respostas, valorMaximo)
           vt = valor_total(mr, 1)
           with open(BS_G, mode='a', newline='') as file:
                writer = csv.writer(file)
                # Escreva o valor no arquivo CSV
                writer.writerow([vt])
-          
+          '''
      
      solução = melhor_resposta(respostas, valorMaximo)
      return solução
@@ -198,21 +204,18 @@ if __name__ == "__main__":
      W = 20 # Carga máxima da mochila
      # Definimos os itens com peso e valor respectivamente
      Itens = [(15, 30), (10, 25), (2, 2), (4, 6), (6, 15), (7, 20), (20, 38)]
-     k = 4 # Quantidade de estados iniciais
+     k = 5 # Quantidade de estados iniciais
      
      Arq_HC = "Arq_HC.csv" #remove esse coment pra funcionar o salvar em csv
      Arq_BS = "Arq_BS.csv"
      Arq_AG = "Arq_AG.csv" 
      with open(Arq_HC, mode='w', newline='') as file:
           writer = csv.writer(file)
-          writer.writerow([])
      with open(Arq_BS, mode='w', newline='') as file:
           writer = csv.writer(file)
-          writer.writerow([])
      with open(Arq_AG, mode='w', newline='') as file:
           writer = csv.writer(file)
-          writer.writerow([])
-     for i in range(1):
+     for i in range(3):
           
           print("Hill Climbing:")
           solução = hill_climbing(Itens, W)
