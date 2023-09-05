@@ -113,19 +113,15 @@ def algoritmo_genetico():
      populacao = gera_populacao(tam_pop) #gera a população
 
      for i in range(geracoes): #loop que executa conforme o numero de gerações
-          pai1, pai2 = pega_cromossomo(populacao) #escolhe dois pais
-     
-     filho1, filho2 = crossover(pai1, pai2) #realiza o crossover
-     
-     if random.uniform(0, 1) <= chance_muta: #verifica se há chance de mutação e a realiza caso ocorra
-          filho1 = mutacao(filho1)
-     if random.uniform(0, 1) <= chance_muta:
-          filho2 = mutacao(filho2)
-     
-     populacao = [filho1, filho2] + populacao[2:] #substitui a população antiga pela nova #ver conceito de substituição
+          pai1, pai2 = pega_cromossomo(populacao) #escolhe dois pais     
+          filho1, filho2 = crossover(pai1, pai2) #realiza o crossover
+          if random.uniform(0, 1) <= chance_muta: #verifica se há chance de mutação e a realiza caso ocorra
+               filho1 = mutacao(filho1)
+          if random.uniform(0, 1) <= chance_muta:
+               filho2 = mutacao(filho2)
+          populacao = [filho1, filho2] + populacao[2:] #substitui a população antiga pela nova #ver conceito de substituição
      
      melhor_resultado = escolher_melhor(populacao) #seleciona o melhor resultado
-
      return melhor_resultado
 
 
@@ -196,9 +192,20 @@ if __name__ == "__main__":
      Itens = [(15, 30), (10, 25), (2, 2), (4, 6), (6, 15), (7, 20), (20, 38)]
      k = 4 # Quantidade de estados iniciais
      
-     
+     '''Arq_HC = "Arq_HC.csv" #remove esse coment pra funcionar o salvar em csv
+     Arq_BS = "Arq_BS.csv"
+     Arq_AG = "Arq_AG.csv" 
+     with open(Arq_HC, mode='w', newline='') as file:
+          writer = csv.writer(file)
+          writer.writerow([])
+     with open(Arq_BS, mode='w', newline='') as file:
+          writer = csv.writer(file)
+          writer.writerow([])
+     with open(Arq_AG, mode='w', newline='') as file:
+          writer = csv.writer(file)
+          writer.writerow([])
      for i in range(100):
-          Arq_HC = "Arq_HC.csv"
+          
           print("Hill Climbing:")
           solução = hill_climbing(Itens, W)
           print("Itens: ", solução)
@@ -209,7 +216,7 @@ if __name__ == "__main__":
                # Escreva o valor no arquivo CSV
                writer.writerow([VHC])
 
-          Arq_BS = "Arq_BS.csv"
+          
           print()
           print("Local Beam Search:")
           solução2 = beam_search(Itens, W, k)
@@ -221,7 +228,7 @@ if __name__ == "__main__":
                # Escreva o valor no arquivo CSV
                writer.writerow([VBS])
           
-          Arq_AG = "Arq_AG.csv"
+          
           print()
           print("Algoritmo Genético")
           solução3 = algoritmo_genetico()
@@ -230,20 +237,15 @@ if __name__ == "__main__":
                writer = csv.writer(file)
                # Escreva o valor no arquivo CSV
                writer.writerow([solução3])
-     '''for i in range(10):     
-          Arq_HC = "Arq_HC.csv" 
-          print("Hill Climbing:")
-          solução = hill_climbing(Itens, W)
-          print("Itens: ", solução)
-          print("Valor total: ", valor_total(solução, 1))
-          VHC = valor_total(solução, 1)
-          # Abra o arquivo CSV para escrever
-          
-          with open(Arq_HC, mode='a', newline='') as file:
-               writer = csv.writer(file)
-               # Escreva o valor no arquivo CSV
-               writer.writerow([VHC])
-
+     '''#remove esse coment pra funcionar o salvar em csv
+     
+     print()
+     print("Hill Climbing:")
+     
+     solução = hill_climbing(Itens, W)
+     print("Itens: ", solução)
+     print("Valor total: ", valor_total(solução, 1))
+     
      print()
      print("Local Beam Search:")
 
@@ -256,4 +258,4 @@ if __name__ == "__main__":
      
      solução3 = algoritmo_genetico()
      print("Valor Total:", solução3)
-     '''
+     

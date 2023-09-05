@@ -1,4 +1,5 @@
 import random
+import csv
 #gera uma população de cromossomos
 def gera_populacao(tam):
     populacao = [] #cria lista pop
@@ -8,7 +9,7 @@ def gera_populacao(tam):
         for i in range(len(itens)): #loop de 0 até qtd de itens
             cromossomo.append(random.choice(genes)) #adiciona ao cromossomo um gene(de valor 0 ou 1, escolhido aleatoriamente)
         populacao.append(cromossomo) #adiciona o cromossomo a população
-    print(f"Populacao aleatoria de {tam} cromossomos gerada") #print de contexto
+    #print(f"Populacao aleatoria de {tam} cromossomos gerada") #print de contexto
     return populacao # retorna a populção
 
 #calcula o fitness de um cromossomo
@@ -20,7 +21,7 @@ def calcula_fit(cromossomo): #recebe o cromossomo o qual sera calculado
             cromo_peso += itens[i][0] #soma o peso do item ao peso total do cromossomo atual
             cromo_valor += itens[i][1] #soma o valor do item ao valor total do cromossomo atual
     if cromo_peso > W: #caso o peso total do cromossomo extrapole o peso máximo da mochila, retorna valor 0
-        return 0
+        return 1
     else: #caso contrário, retorna o valor do cromossomo atual
         return cromo_valor 
 
@@ -50,7 +51,7 @@ def pega_cromossomo(populacao):
         
         pai2 = random.choices(pais, weights=valor_fit, k=1)[0] #maior a chance de serem escolhidos
         
-        print(f"Pais escolhidos{pai1} e {pai2}") #<- print explicação
+        #print(f"Pais escolhidos{pai1} e {pai2}") #<- print explicação
         return pai1, pai2
 
 #aqui é onde realizamos o crossover
@@ -88,7 +89,20 @@ def escolher_melhor(populacao):
     pos_max = valor_fit.index(valor_max) #recebe a posição do cromossomo que obteve a maior pontuação
     #print(f"Pos {pos_max}") #<- print explicação
     #print(populacao[pos_max]) #<- print explicação
-    return populacao[pos_max] #retorna o cromossomo com a melhor pontuação
+    melhor_resultado = populacao[pos_max]
+    peso_total = 0
+    valor_total = 0
+    for i in range(len(melhor_resultado)): #pega o peso e valor do melhor resultado
+     if melhor_resultado[i] == 1:
+          peso_total += itens[i][0]
+          valor_total += itens[i][1]
+    if peso_total>W:
+          #algoritmo_genetico()
+          return 0
+    else:
+         print(f"pt: {peso_total}")     
+         print(f"vt: {valor_total}")      
+         return valor_total #retorna o cromossomo com a melhor pontuação
         
 
 #main
@@ -97,12 +111,15 @@ itens = [(15, 30), (10, 25), (2, 2), (4, 6), (6, 15), (7, 20), (20, 38)]
 
 #parametros do AG
 W = 20 # Carga máxima da mochila
-tam_pop = 100 #tamanho da pop(num de cromossomos)
+tam_pop = 15 #tamanho da pop(num de cromossomos)
 chance_muta = 0.2 #chance de mutação
-geracoes = 5 #numero de gerações
-
+geracoes = 10 #numero de gerações
+AG_G = "AG_Geracoes.csv"
 populacao = gera_populacao(tam_pop) #gera a população
-
+with open(AG_G, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow([])
+    
 for i in range(geracoes): #loop que executa conforme o numero de gerações
     pai1, pai2 = pega_cromossomo(populacao) #escolhe dois pais
     
@@ -112,17 +129,19 @@ for i in range(geracoes): #loop que executa conforme o numero de gerações
         filho1 = mutacao(filho1)
     if random.uniform(0, 1) <= chance_muta:
         filho2 = mutacao(filho2)
-    
     populacao = [filho1, filho2] + populacao[2:] #substitui a população antiga pela nova #ver conceito de substituição
+    mr = escolher_melhor(populacao)
+    with open(AG_G, mode='a', newline='') as file:
+               writer = csv.writer(file)
+               # Escreva o valor no arquivo CSV
+               writer.writerow([mr])
+    
     
 melhor_resultado = escolher_melhor(populacao) #seleciona o melhor resultado
+print(f"melhor resultado: {melhor_resultado}")
 
-peso_total = 0
-valor_total = 0
-for i in range(len(melhor_resultado)): #pega o peso e valor do melhor resultado
-    if melhor_resultado[i] == 1:
-        peso_total += itens[i][0]
-        valor_total += itens[i][1]
-         
-print("Peso ", peso_total) #os imprime
-print("Valor ", valor_total)
+          
+          
+          
+          
+          
