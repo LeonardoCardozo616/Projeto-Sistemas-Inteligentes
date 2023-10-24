@@ -34,7 +34,7 @@ class DecisionTreeClassifier():
         if num_samples>=self.min_samples_split and curr_depth<=self.max_depth:
             # encontra a melhor divisão
             best_split = self.get_best_split(dataset, num_samples, num_features)
-            # verifica se o ganho de informação é positivo
+            # verifica se existe ganho de informação
             if best_split["info_gain"]>0:
                 # cria a árvore esquerda
                 left_subtree = self.build_tree(best_split["dataset_left"], curr_depth+1)
@@ -62,10 +62,11 @@ class DecisionTreeClassifier():
             possible_thresholds = np.unique(feature_values)
             # Loop para todos os valores presentes nos dados
             for threshold in possible_thresholds:
-                # pegar divisão atual
+                # pegar divisão atual, left =< threshold e right > threshold
                 dataset_left, dataset_right = self.split(dataset, feature_index, threshold)
                 # Verifica se os filhos não são nulos
                 if len(dataset_left)>0 and len(dataset_right)>0:
+                   # recolhe a saída do dataset left e right
                     y, left_y, right_y = dataset[:, -1], dataset_left[:, -1], dataset_right[:, -1]
                     # Computa o ganho de informação
                     curr_info_gain = self.information_gain(y, left_y, right_y, "gini")
@@ -79,6 +80,7 @@ class DecisionTreeClassifier():
                         max_info_gain = curr_info_gain
                         
         # retorna best_split
+        #print(f'info gain = {best_split["info_gain"]}')
         return best_split
     
     def split(self, dataset, feature_index, threshold):
@@ -172,9 +174,9 @@ print(data.head(10))
 
 X = data.iloc[:, :-1].values
 Y = data.iloc[:, -1].values.reshape(-1,1)
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=.2, random_state=41)
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=.2, random_state=50)
 
-classifier = DecisionTreeClassifier(min_samples_split=4, max_depth=4)
+classifier = DecisionTreeClassifier(min_samples_split=2, max_depth=2)
 classifier.fit(X_train,Y_train)
 classifier.print_tree(col_name=col_names, results=resultados)
 
