@@ -169,8 +169,10 @@ class DecisionTreeClassifier():
 col_names = ['i', 'pSist', 'pDiast', 'qPA', 'pulso', 'resp', 'gravid', 'classe']
 resultados = ['crítico', 'instável', 'potencialmente estável', 'estável']
 data = pd.read_csv("treino_sinais_vitais_com_label.csv", header=None, names=col_names)
-print(data.head(10))
 
+data = data.drop('gravid', axis=1)
+col_names.remove('gravid')
+print(data.head(10))
 
 X = data.iloc[:, :-1].values
 Y = data.iloc[:, -1].values.reshape(-1,1)
